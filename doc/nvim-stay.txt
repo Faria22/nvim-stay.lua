@@ -103,6 +103,17 @@ cursor positions should remain ephemeral:
 <
 Tables keyed by option name and set to `true` are also accepted.
 
+LUA CONFIGURATION API:			*stay.setup()*
+
+If you prefer configuring the plugin from Lua (for example via plugin managers),
+call `require('stay').setup({ ... })` with the options you wish to override.
+>
+	require('stay').setup({
+	  disabled_viewoptions = {'folds'},
+	  verbosity = 0,
+	})
+<
+
 ERROR MESSAGING VERBOSITY:			*g:stay_verbosity*
 
 Because it is designed to work in the background of frequent Neovim operations,

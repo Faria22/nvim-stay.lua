@@ -4,6 +4,53 @@
 
 local M = {}
 
+local tbl_islist = vim.tbl_islist or function(t)
+  local count = 0
+  for k, _ in pairs(t) do
+    if type(k) ~= 'number' then
+      return false
+    end
+    count = count + 1
+  end
+  for i = 1, count do
+    if t[i] == nil then
+      return false
+    end
+  end
+  return true
+end
+
+local function normalize_list(value)
+  if value == nil then
+    return {}
+  end
+
+  if type(value) ~= 'table' then
+    if value ~= '' then
+      return { value }
+    end
+    return {}
+  end
+
+  local list = {}
+
+  if tbl_islist(value) then
+    for _, item in ipairs(value) do
+      if type(item) == 'string' and item ~= '' then
+        table.insert(list, item)
+      end
+    end
+  else
+    for key, enabled in pairs(value) do
+      if enabled and type(key) == 'string' and key ~= '' then
+        table.insert(list, key)
+      end
+    end
+  end
+
+  return list
+end
+
 -- Default configuration
 M.config = {
   -- File types that should never be persisted
@@ -18,6 +65,29 @@ M.config = {
   -- -1: no messages, 0: important errors only, 1: all errors
   verbosity = 0,
 }
+
+function M.setup(opts)
+  if type(opts) ~= 'table' then
+    return
+  end
+
+  if opts.volatile_ftypes ~= nil then
+    M.config.volatile_ftypes = normalize_list(opts.volatile_ftypes)
+    vim.g.volatile_ftypes = M.config.volatile_ftypes
+  end
+
+  if opts.disabled_viewoptions ~= nil then
+    M.config.disabled_viewoptions = normalize_list(opts.disabled_viewoptions)
+    vim.g.stay_disabled_viewoptions = M.config.disabled_viewoptions
+  end
+
+  if opts.verbosity ~= nil then
+    M.config.verbosity = opts.verbosity
+    vim.g.stay_verbosity = opts.verbosity
+  end
+end
+
+M.normalize_list = normalize_list
 
 -- Buffer state storage
 local buffer_states = {}

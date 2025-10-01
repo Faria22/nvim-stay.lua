@@ -36,6 +36,12 @@ use 'Faria22/nvim-stay.lua'
 {
   'Faria22/nvim-stay.lua',
   event = 'BufReadPre',
+  opts = {
+    disabled_viewoptions = {'folds'},
+  },
+  config = function(_, opts)
+    require('stay').setup(opts)
+  end,
 }
 ```
 
@@ -101,6 +107,16 @@ vim.g.stay_disabled_viewoptions = {'folds'}
 
 -- You can also disable multiple entries
 vim.g.stay_disabled_viewoptions = {'folds', 'cursor'}
+```
+
+When configuring via Lua plugin managers, call `require('stay').setup` with the
+same options:
+
+```lua
+require('stay').setup({
+  disabled_viewoptions = {'folds'},
+  verbosity = 0,
+})
 ```
 
 ### Error Verbosity

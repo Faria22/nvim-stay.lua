@@ -19,6 +19,11 @@ vim.opt.viewoptions = {'cursor', 'folds', 'slash', 'unix'}
 -- Use this to avoid persisting folds or cursor positions
 -- vim.g.stay_disabled_viewoptions = {'folds'}
 
+-- Or configure directly via Lua after loading the plugin
+-- require('stay').setup({
+--   disabled_viewoptions = {'folds'},
+-- })
+
 -- Optional: Set error message verbosity
 -- -1 = no messages, 0 = important errors only (default), 1 = all errors
 -- vim.g.stay_verbosity = 0

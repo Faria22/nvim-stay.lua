@@ -17,29 +17,10 @@ local stay = require('stay')
 local view = require('stay.view')
 local viewdir = require('stay.viewdir')
 
-local function normalize_list(value)
-  if value == nil then
-    return {}
-  end
-  if type(value) == 'table' then
-    if vim.tbl_islist(value) then
-      return value
-    end
-
-    local list = {}
-    for key, enabled in pairs(value) do
-      if enabled then
-        table.insert(list, key)
-      end
-    end
-    return list
-  end
-  return { value }
-end
-
 -- Initialize configuration from global variables if they exist
 if vim.g.volatile_ftypes then
-  stay.config.volatile_ftypes = vim.g.volatile_ftypes
+  stay.config.volatile_ftypes = stay.normalize_list(vim.g.volatile_ftypes)
+  vim.g.volatile_ftypes = stay.config.volatile_ftypes
 else
   vim.g.volatile_ftypes = stay.config.volatile_ftypes
 end
@@ -51,7 +32,7 @@ else
 end
 
 if vim.g.stay_disabled_viewoptions ~= nil then
-  stay.config.disabled_viewoptions = normalize_list(vim.g.stay_disabled_viewoptions)
+  stay.config.disabled_viewoptions = stay.normalize_list(vim.g.stay_disabled_viewoptions)
   vim.g.stay_disabled_viewoptions = stay.config.disabled_viewoptions
 else
   vim.g.stay_disabled_viewoptions = stay.config.disabled_viewoptions
