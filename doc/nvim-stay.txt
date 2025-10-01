@@ -1,64 +1,63 @@
-*vim-stay-lua.txt*        For Neovim and Vim 8.0+
+*nvim-stay.txt*        For Neovim
 
 
-		VIM-STAY.LUA REFERENCE
+		NVIM-STAY.LUA REFERENCE
 
 
-Never lose your place in a buffer again	    	*vim-stay-lua*
+Never lose your place in a buffer again	    	*nvim-stay*
 
-1. Introduction				|vim-stay-lua-introduction|
-2. Installation				|vim-stay-lua-installation|
-3. Configuration			|vim-stay-lua-configuration|
-4. Commands				|vim-stay-lua-commands|
-5. Variables				|vim-stay-lua-variables|
-6. Integration				|vim-stay-lua-integration|
-7. Troubleshooting			|vim-stay-lua-troubleshooting|
-8. Credits and license			|vim-stay-lua-credits-license|
+1. Introduction				|nvim-stay-introduction|
+2. Installation				|nvim-stay-installation|
+3. Configuration			|nvim-stay-configuration|
+4. Commands				|nvim-stay-commands|
+5. Variables				|nvim-stay-variables|
+6. Integration				|nvim-stay-integration|
+7. Troubleshooting			|nvim-stay-troubleshooting|
+8. Credits and license			|nvim-stay-credits-license|
 
 ==============================================================================
-1. Introduction					*vim-stay-lua-introduction*
+1. Introduction					*nvim-stay-introduction*
 
-vim-stay-lua is a Lua implementation of the vim-stay plugin, adding 
+nvim-stay.lua is a Lua implementation of the vim-stay plugin, adding 
 automated |View| creation and restoration whenever editing a buffer, across 
-Vim sessions and window life cycles. It also alleviates Vim's tendency to 
-lose view state when cycling through buffers (via |argdo|, |bufdo| et al.). 
+Neovim sessions and window life cycles. It also alleviates Neovim's tendency 
+to lose view state when cycling through buffers (via |argdo|, |bufdo| et al.). 
 
 It is smart about which buffers should be persisted and which should not, 
 making the procedure painless and invisible.
 
-This plugin is designed to work with both Neovim and Vim 8.0+ with Lua 
-support.
+This plugin is designed to work with Neovim.
 
 ==============================================================================
-2. Installation					*vim-stay-lua-installation*
+2. Installation					*nvim-stay-installation*
 
 Using a plugin manager (e.g., vim-plug, packer.nvim, lazy.nvim):
 
 For vim-plug: >
-    Plug 'Faria22/vim-stay.lua'
+    Plug 'Faria22/nvim-stay.lua'
 <
 
 For packer.nvim: >
-    use 'Faria22/vim-stay.lua'
+    use 'Faria22/nvim-stay.lua'
 <
 
 For lazy.nvim: >
-    { 'Faria22/vim-stay.lua' }
+    { 'Faria22/nvim-stay.lua' }
 <
 
 Manual installation:
 1. Clone the repository into your 'packpath':
    >
-   git clone https://github.com/Faria22/vim-stay.lua \
-     ~/.local/share/nvim/site/pack/plugins/start/vim-stay.lua
+   git clone https://github.com/Faria22/nvim-stay.lua \
+     ~/.local/share/nvim/site/pack/plugins/start/nvim-stay.lua
 <
 2. Run `:helptags ALL` to generate help tags
 
 ==============================================================================
-3. Configuration				*vim-stay-lua-configuration*
+3. Configuration				*nvim-stay-configuration*
 
 
-VIEW SESSION CONFIGURATION:			*vim-stay-lua-viewoptions*
+VIEW SESSION CONFIGURATION:			*nvim-stay-viewoptions*
 
 The following, non-standard 'viewoptions' settings are recommended:
 >
@@ -66,7 +65,7 @@ The following, non-standard 'viewoptions' settings are recommended:
 <
 It is recommended to clear the 'viewdir' contents after changing this option,
 as it is only applied when creating a view session file, not when loading it.
-vim-stay-lua provides the |:CleanViewdir| command to do that.
+nvim-stay.lua provides the |:CleanViewdir| command to do that.
 
 Note that you absolutely should remove `options` from 'viewoptions':
 >
@@ -77,7 +76,7 @@ as storing local options in view session files causes no end of trouble.
 
 IGNORED FILE TYPES:				*g:volatile_ftypes*
 
-vim-stay-lua applies heuristics to detect buffers that should not be 
+nvim-stay.lua applies heuristics to detect buffers that should not be 
 persisted, but in some cases non-persistent buffers slip through. You can 
 mark file types as volatile by adding them to the `volatile_ftypes` list:
 >
@@ -95,8 +94,8 @@ You can also append to the defaults:
 
 ERROR MESSAGING VERBOSITY:			*g:stay_verbosity*
 
-Because it is designed to work in the background of frequent Vim operations,
-vim-stay-lua will suppress most errors and only echo messages about important 
+Because it is designed to work in the background of frequent Neovim operations,
+nvim-stay.lua will suppress most errors and only echo messages about important 
 ones. You can adjust this policy by setting:
 >
 	vim.g.stay_verbosity = -1  -- No messages
@@ -105,7 +104,7 @@ ones. You can adjust this policy by setting:
 <
 
 ==============================================================================
-4. Commands					*vim-stay-lua-commands*
+4. Commands					*nvim-stay-commands*
 
 
 :CleanViewdir[!] [days]				*:CleanViewdir*
@@ -122,41 +121,41 @@ ones. You can adjust this policy by setting:
 <
 
 :StayReload[!]					*:StayReload*
-		Load new vim-stay-lua integrations.
+		Load new nvim-stay.lua integrations.
 
 		The bang variant will re-load the plugin entirely, clearing
 		and re-defining all autocommands, commands, and configuration
 		variables.
 
 ==============================================================================
-5. Variables					*vim-stay-lua-variables*
+5. Variables					*nvim-stay-variables*
 
 
 b:stay_loaded_view				*b:stay_loaded_view*
 		Full path to the last view session file loaded for the current
-		buffer. This value is not vim-stay-lua specific and will only
+		buffer. This value is not nvim-stay.lua specific and will only
 		change when the loaded view file's path changes.
 
 b:stay_ignore					*b:stay_ignore*
-		Set to 1 to prevent vim-stay-lua from making and restoring 
+		Set to 1 to prevent nvim-stay.lua from making and restoring 
 		sessions for a specific buffer: >
 		    let b:stay_ignore = 1
 <
 
 b:stay_atpos					*b:stay_atpos*
-		Set to make vim-stay-lua respect a position set by another 
+		Set to make nvim-stay.lua respect a position set by another 
 		script or plugin: >
 		    let b:stay_atpos = {line, column}
 <
 		This position will be restored after loading the session.
 
 ==============================================================================
-6. Integration					*vim-stay-lua-integration*
+6. Integration					*nvim-stay-integration*
 
 
-AUTOCOMMAND API:				*vim-stay-lua-autocommands*
+AUTOCOMMAND API:				*nvim-stay-autocommands*
 
-vim-stay-lua triggers User autocommand events when loading or saving state:
+nvim-stay.lua triggers User autocommand events when loading or saving state:
 
 *BufStayLoadPre*	Before loading a view session
 *BufStayLoadPost*	After loading a view session
@@ -168,31 +167,31 @@ Example: >
 <
 
 ==============================================================================
-7. Troubleshooting				*vim-stay-lua-troubleshooting*
+7. Troubleshooting				*nvim-stay-troubleshooting*
 
 
 MY CURSOR POSITION IS NOT PERSISTED
 
 You have removed "cursor" from 'viewoptions'. See the recommended setting
-under |vim-stay-lua-viewoptions|.
+under |nvim-stay-viewoptions|.
 
 
 MY FOLD STATE IS NOT PERSISTED
 
 You have removed "folds" from 'viewoptions'. See the recommended setting
-under |vim-stay-lua-viewoptions|.
+under |nvim-stay-viewoptions|.
 
 
 MY BUFFER-LOCAL OPTIONS ARE NOT PERSISTED
 
 This is by design: restoring local options from view session files causes 
-hard to track issues. vim-stay-lua will ignore the `options` flag in
+hard to track issues. nvim-stay.lua will ignore the `options` flag in
 'viewoptions' when creating views.
 
 
-VIM-STAY-LUA TRIES TO PERSIST STATE FOR TEMPORARY FILES
+NVIM-STAY.LUA TRIES TO PERSIST STATE FOR TEMPORARY FILES
 
-- Check if the files are listed in 'backupskip' - vim-stay-lua will ignore 
+- Check if the files are listed in 'backupskip' - nvim-stay.lua will ignore 
   files in directories listed there.
 - You can set |b:stay_ignore| to 1 for specific buffers.
 
@@ -205,15 +204,15 @@ Use the |:CleanViewdir| command to clean up your 'viewdir' directory.
 MY PROBLEM ISN'T LISTED HERE
 
 Please open an issue at:
-	https://github.com/Faria22/vim-stay.lua/issues
+	https://github.com/Faria22/nvim-stay.lua/issues
 
 ==============================================================================
-8. Credits and License			*vim-stay-lua-credits-license*
+8. Credits and License			*nvim-stay-credits-license*
 
-vim-stay-lua is a Lua implementation inspired by vim-stay, originally created 
+nvim-stay.lua is a Lua implementation inspired by vim-stay, originally created 
 by Martin Kopischke (http://martin.kopischke.net) and maintained by Zach 
 Himsel (http://zach.himsel.net).
 
-vim-stay-lua is licensed under the terms of the MIT license.
+nvim-stay.lua is licensed under the terms of the MIT license.
 
 vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:

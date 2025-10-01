@@ -1,4 +1,4 @@
--- vim-stay.lua: viewdir management utilities
+-- nvim-stay.lua: viewdir management utilities
 -- Handles cleaning of view directory
 
 local M = {}

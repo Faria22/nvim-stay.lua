@@ -1,5 +1,5 @@
--- Example configuration for vim-stay.lua
--- Add this to your init.lua or init.vim
+-- Example configuration for nvim-stay.lua
+-- Add this to your init.lua
 
 -- Recommended viewoptions settings
 vim.opt.viewoptions = {'cursor', 'folds', 'slash', 'unix'}
@@ -22,4 +22,4 @@ vim.opt.viewoptions = {'cursor', 'folds', 'slash', 'unix'}
 -- Optional: Set a custom viewdir location
 -- vim.opt.viewdir = vim.fn.stdpath('data') .. '/view'
 
--- That's it! vim-stay.lua will work automatically in the background
+-- That's it! nvim-stay.lua will work automatically in the background

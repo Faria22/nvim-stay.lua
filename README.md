@@ -1,12 +1,12 @@
-# vim-stay.lua
+# nvim-stay.lua
 
-Make Vim persist editing state without fuss, written in Lua.
+Make Neovim persist editing state without fuss, written in Lua.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-*vim-stay.lua* is a Lua implementation of the excellent [vim-stay](https://github.com/zhimsel/vim-stay) plugin. It adds automated view session creation and restoration whenever editing a buffer, across Vim sessions and window life cycles. It also alleviates Vim's tendency to lose view state when cycling through buffers (via `argdo`, `bufdo` et al.).
+*nvim-stay.lua* is a Lua implementation of the excellent [vim-stay](https://github.com/zhimsel/vim-stay) plugin. It adds automated view session creation and restoration whenever editing a buffer, across Neovim sessions and window life cycles. It also alleviates Neovim's tendency to lose view state when cycling through buffers (via `argdo`, `bufdo` et al.).
 
-If you have wished Vim would be smarter about keeping your editing state, *vim-stay.lua* is for you.
+If you have wished Neovim would be smarter about keeping your editing state, *nvim-stay.lua* is for you.
 
 ## Features
 
@@ -15,27 +15,26 @@ If you have wished Vim would be smarter about keeping your editing state, *vim-s
 - ⚡ **Performance optimized**: Written in Lua for speed and efficiency
 - 🔌 **Plugin friendly**: Integrates well with other plugins through autocommand events
 - 🛡️ **Safe by default**: Won't persist temporary files, commit messages, or special buffers
-- 🌐 **Cross-platform**: Works with both Neovim and Vim 8.0+ with Lua support
 
 ## Installation
 
 ### Using [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```vim
-Plug 'Faria22/vim-stay.lua'
+Plug 'Faria22/nvim-stay.lua'
 ```
 
 ### Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
 
 ```lua
-use 'Faria22/vim-stay.lua'
+use 'Faria22/nvim-stay.lua'
 ```
 
 ### Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 {
-  'Faria22/vim-stay.lua',
+  'Faria22/nvim-stay.lua',
   event = 'BufReadPre',
 }
 ```
@@ -46,12 +45,8 @@ Clone the repository into your `packpath`:
 
 ```bash
 # For Neovim
-git clone https://github.com/Faria22/vim-stay.lua \
-  ~/.local/share/nvim/site/pack/plugins/start/vim-stay.lua
-
-# For Vim
-git clone https://github.com/Faria22/vim-stay.lua \
-  ~/.vim/pack/plugins/start/vim-stay.lua
+git clone https://github.com/Faria22/nvim-stay.lua \
+  ~/.local/share/nvim/site/pack/plugins/start/nvim-stay.lua
 ```
 
 Then run `:helptags ALL` to generate help tags.
@@ -135,7 +130,7 @@ Reload integrations or the entire plugin.
 
 #### Ignoring Specific Buffers
 
-To prevent vim-stay.lua from persisting a specific buffer:
+To prevent nvim-stay.lua from persisting a specific buffer:
 
 ```vim
 let b:stay_ignore = 1
@@ -143,7 +138,7 @@ let b:stay_ignore = 1
 
 #### Setting Custom Position
 
-To make vim-stay.lua respect a position set by another plugin:
+To make nvim-stay.lua respect a position set by another plugin:
 
 ```vim
 let b:stay_atpos = [line, column]
@@ -151,7 +146,7 @@ let b:stay_atpos = [line, column]
 
 #### Autocommand Events
 
-vim-stay.lua triggers these User autocommand events:
+nvim-stay.lua triggers these User autocommand events:
 
 - `BufStayLoadPre` - Before loading a view session
 - `BufStayLoadPost` - After loading a view session
@@ -188,11 +183,11 @@ Clean it up periodically:
 
 ### More Help
 
-See `:help vim-stay-lua` for complete documentation.
+See `:help nvim-stay` for complete documentation.
 
 ## Differences from Original vim-stay
 
-*vim-stay.lua* is implemented in Lua for better performance and native integration with Neovim, but maintains API compatibility with the original vim-stay:
+*nvim-stay.lua* is implemented in Lua for better performance and native integration with Neovim, but maintains API compatibility with the original vim-stay:
 
 - ✅ Same core functionality
 - ✅ Same configuration variables
@@ -205,7 +200,7 @@ See `:help vim-stay-lua` for complete documentation.
 - **Performance**: Lua code runs faster than VimScript
 - **Native support**: First-class support in Neovim
 - **Modern**: Cleaner, more maintainable codebase
-- **Future-proof**: Better positioned for future Vim/Neovim development
+- **Future-proof**: Better positioned for future Neovim development
 
 ## Contributing
 

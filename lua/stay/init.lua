@@ -1,4 +1,4 @@
--- vim-stay.lua: Core persistence logic
+-- nvim-stay.lua: Core persistence logic
 -- Maintainer: Based on vim-stay by Martin Kopischke and Zach Himsel
 -- License: MIT
 

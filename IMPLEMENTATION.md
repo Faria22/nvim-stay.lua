@@ -1,19 +1,19 @@
 # Implementation Summary
 
-## vim-stay.lua - Complete Implementation
+## nvim-stay.lua - Complete Implementation
 
-This is a full Lua implementation of the vim-stay plugin, maintaining API compatibility while leveraging Lua for better performance.
+This is a full Lua implementation of the vim-stay plugin for Neovim, maintaining API compatibility while leveraging Lua for better performance.
 
 ## Project Structure
 
 ```
-vim-stay.lua/
+nvim-stay.lua/
 ├── LICENSE                    # MIT License
 ├── README.md                  # Comprehensive documentation
 ├── CHANGELOG.md               # Version history
 ├── example_config.lua         # Example configuration file
 ├── doc/
-│   └── vim-stay-lua.txt      # Vim help documentation
+│   └── nvim-stay.txt         # Neovim help documentation
 ├── lua/
 │   └── stay/
 │       ├── init.lua          # Core persistence logic and heuristics
@@ -68,7 +68,6 @@ All core functionality has been tested and verified:
 ## Compatibility
 
 - Neovim (tested with 0.9.5)
-- Vim 8.0+ with Lua support
 - Compatible with original vim-stay API
 - Same configuration variables and commands
 - Same buffer variables for integration
@@ -96,7 +95,7 @@ All core functionality has been tested and verified:
 ## Documentation
 
 - Comprehensive README with installation and usage instructions
-- Vim help documentation (`:help vim-stay-lua`)
+- Neovim help documentation (`:help nvim-stay`)
 - Example configuration file
 - Changelog with version history
 

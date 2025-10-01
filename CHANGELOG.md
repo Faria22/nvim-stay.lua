@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to vim-stay.lua will be documented in this file.
+All notable changes to nvim-stay.lua will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -8,8 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-10-01
 
 ### Added
-- Initial release of vim-stay.lua
-- Lua implementation of vim-stay plugin functionality
+- Initial release of nvim-stay.lua
+- Lua implementation of vim-stay plugin functionality for Neovim
 - Automatic view session creation and restoration
 - Smart heuristics for detecting persistent buffers
 - Configuration options:
@@ -27,8 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `BufStayLoadPost` - after loading view
   - `BufStaySavePre` - before saving view
   - `BufStaySavePost` - after saving view
-- Comprehensive documentation in `:help vim-stay-lua`
-- Support for both Neovim and Vim 8.0+ with Lua support
+- Comprehensive documentation in `:help nvim-stay`
+- Support for Neovim
 
 ### Features from Original vim-stay
 - ✅ Automatic view creation/restoration on buffer events
@@ -45,4 +45,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Native integration with Neovim's Lua API
 - Reduced overhead compared to VimScript
 
-[1.0.0]: https://github.com/Faria22/vim-stay.lua/releases/tag/v1.0.0
+[1.0.0]: https://github.com/Faria22/nvim-stay.lua/releases/tag/v1.0.0

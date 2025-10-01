@@ -1,4 +1,4 @@
--- vim-stay.lua: View session handling
+-- nvim-stay.lua: View session handling
 -- Handles creation and restoration of view sessions
 
 local M = {}

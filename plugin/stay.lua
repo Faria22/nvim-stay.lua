@@ -1,5 +1,5 @@
--- vim-stay.lua: Main plugin entry point
--- A Lua implementation of vim-stay
+-- nvim-stay.lua: Main plugin entry point
+-- A Lua implementation of vim-stay for Neovim
 
 -- Check if plugin should load
 if vim.g.loaded_stay_lua then
@@ -7,7 +7,7 @@ if vim.g.loaded_stay_lua then
 end
 
 -- Check for required features
-if vim.fn.has('nvim') == 0 and vim.fn.has('vim') == 0 then
+if vim.fn.has('nvim') == 0 then
   return
 end
 
