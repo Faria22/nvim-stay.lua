@@ -18,12 +18,6 @@ If you have wished Neovim would be smarter about keeping your editing state, *nv
 
 ## Installation
 
-### Using [vim-plug](https://github.com/junegunn/vim-plug)
-
-```vim
-Plug 'Faria22/nvim-stay.lua'
-```
-
 ### Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
 
 ```lua
