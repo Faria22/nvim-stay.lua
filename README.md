@@ -91,6 +91,18 @@ vim.g.volatile_ftypes = {
 }
 ```
 
+### Disabling Specific View Options
+
+To stop persisting particular view attributes (such as folds), provide a list of tokens from `:set viewoptions?`:
+
+```lua
+-- Stop tracking folds when saving views
+vim.g.stay_disabled_viewoptions = {'folds'}
+
+-- You can also disable multiple entries
+vim.g.stay_disabled_viewoptions = {'folds', 'cursor'}
+```
+
 ### Error Verbosity
 
 Control how verbose error messages are:
@@ -219,4 +231,3 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 - [vim-stay](https://github.com/zhimsel/vim-stay) - The original VimScript implementation
 - [vim-fetch](https://github.com/kopischke/vim-fetch) - Handle line and column position specs in file paths
-

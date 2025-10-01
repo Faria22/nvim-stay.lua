@@ -17,8 +17,17 @@ local function doautocmd(event, pattern)
 end
 
 -- Make a view session for the current window
-function M.make(winid)
+function M.make(winid, disabled_viewoptions)
   local original_winid = vim.api.nvim_get_current_win()
+  local disabled_lookup = {}
+
+  if type(disabled_viewoptions) == 'table' then
+    for _, opt in ipairs(disabled_viewoptions) do
+      if type(opt) == 'string' and opt ~= '' then
+        disabled_lookup[opt] = true
+      end
+    end
+  end
   
   -- Switch to target window
   local ok = pcall(vim.api.nvim_set_current_win, winid)
@@ -37,7 +46,7 @@ function M.make(winid)
     -- Remove options and localoptions from viewoptions
     local viewopts = {}
     for opt in original_viewoptions:gmatch('[^,]+') do
-      if opt ~= 'options' and opt ~= 'localoptions' then
+      if opt ~= 'options' and opt ~= 'localoptions' and not disabled_lookup[opt] then
         table.insert(viewopts, opt)
       end
     end

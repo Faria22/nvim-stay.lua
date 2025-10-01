@@ -15,6 +15,10 @@ vim.opt.viewoptions = {'cursor', 'folds', 'slash', 'unix'}
 --   'myfiletype',  -- Add your own file types here
 -- }
 
+-- Optional: Disable tracking of specific viewoptions entries
+-- Use this to avoid persisting folds or cursor positions
+-- vim.g.stay_disabled_viewoptions = {'folds'}
+
 -- Optional: Set error message verbosity
 -- -1 = no messages, 0 = important errors only (default), 1 = all errors
 -- vim.g.stay_verbosity = 0

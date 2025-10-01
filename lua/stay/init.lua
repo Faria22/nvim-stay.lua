@@ -12,6 +12,8 @@ M.config = {
     'hgcommit', 'hgcommitmsg', 'hgstatus', 'hglog', 'hglog-changelog', 'hglog-compact',
     'svn', 'cvs', 'cvsrc', 'bzr',
   },
+  -- View options that should be excluded when creating view sessions
+  disabled_viewoptions = {},
   -- Verbosity of error messages
   -- -1: no messages, 0: important errors only, 1: all errors
   verbosity = 0,

@@ -92,6 +92,17 @@ You can also append to the defaults:
 	vim.g.volatile_ftypes = defaults
 <
 
+DISABLED VIEWOPTIONS:			*g:stay_disabled_viewoptions*
+
+To stop persisting specific view attributes, list their tokens from
+|'viewoptions'| in `g:stay_disabled_viewoptions`. This is useful when folds or
+cursor positions should remain ephemeral:
+>
+	vim.g.stay_disabled_viewoptions = {'folds'}
+	vim.g.stay_disabled_viewoptions = {'folds', 'cursor'}
+<
+Tables keyed by option name and set to `true` are also accepted.
+
 ERROR MESSAGING VERBOSITY:			*g:stay_verbosity*
 
 Because it is designed to work in the background of frequent Neovim operations,

@@ -17,6 +17,26 @@ local stay = require('stay')
 local view = require('stay.view')
 local viewdir = require('stay.viewdir')
 
+local function normalize_list(value)
+  if value == nil then
+    return {}
+  end
+  if type(value) == 'table' then
+    if vim.tbl_islist(value) then
+      return value
+    end
+
+    local list = {}
+    for key, enabled in pairs(value) do
+      if enabled then
+        table.insert(list, key)
+      end
+    end
+    return list
+  end
+  return { value }
+end
+
 -- Initialize configuration from global variables if they exist
 if vim.g.volatile_ftypes then
   stay.config.volatile_ftypes = vim.g.volatile_ftypes
@@ -28,6 +48,13 @@ if vim.g.stay_verbosity ~= nil then
   stay.config.verbosity = vim.g.stay_verbosity
 else
   vim.g.stay_verbosity = stay.config.verbosity
+end
+
+if vim.g.stay_disabled_viewoptions ~= nil then
+  stay.config.disabled_viewoptions = normalize_list(vim.g.stay_disabled_viewoptions)
+  vim.g.stay_disabled_viewoptions = stay.config.disabled_viewoptions
+else
+  vim.g.stay_disabled_viewoptions = stay.config.disabled_viewoptions
 end
 
 -- Track when views were last saved to avoid redundant saves
@@ -52,7 +79,7 @@ local function make_view(stage, bufnr, winid)
   end
   
   -- Create the view
-  local result = view.make(winid)
+  local result = view.make(winid, stay.config.disabled_viewoptions)
   stay.handle_error(result, vim.v.errmsg)
   
   -- Track save time
