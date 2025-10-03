@@ -4,6 +4,8 @@
 
 local M = {}
 
+local DEFAULT_CONFIG -- forward definition after config initialisation
+
 local tbl_islist = vim.tbl_islist or function(t)
   local count = 0
   for k, _ in pairs(t) do
@@ -66,6 +68,12 @@ M.config = {
   verbosity = 0,
 }
 
+DEFAULT_CONFIG = vim.deepcopy(M.config)
+
+function M.reset_config()
+  M.config = vim.deepcopy(DEFAULT_CONFIG)
+end
+
 function M.setup(opts)
   if type(opts) ~= 'table' then
     return
@@ -92,6 +100,66 @@ M.normalize_list = normalize_list
 -- Buffer state storage
 local buffer_states = {}
 
+-- Cached backupskip patterns
+local backupskip_cache = {
+  option = nil,
+  items = {},
+}
+
+local function parse_backupskip(option)
+  if not option or option == '' then
+    return {}
+  end
+
+  local items = {}
+  local chunk = {}
+  local i = 1
+  local len = #option
+
+  local function push_chunk()
+    if #chunk > 0 then
+      table.insert(items, table.concat(chunk))
+    end
+    chunk = {}
+  end
+
+  while i <= len do
+    local ch = option:sub(i, i)
+    if ch == '\\' then
+      local next_char = option:sub(i + 1, i + 1)
+      if next_char == ',' or next_char == ' ' then
+        table.insert(chunk, next_char)
+        i = i + 2
+      elseif next_char ~= '' then
+        table.insert(chunk, '\\' .. next_char)
+        i = i + 2
+      else
+        table.insert(chunk, '\\')
+        i = i + 1
+      end
+    elseif ch == ',' then
+      push_chunk()
+      i = i + 1
+    else
+      table.insert(chunk, ch)
+      i = i + 1
+    end
+  end
+
+  push_chunk()
+
+  return items
+end
+
+local function get_backupskip_items()
+  local option = vim.o.backupskip or ''
+  if backupskip_cache.option ~= option then
+    backupskip_cache.option = option
+    backupskip_cache.items = parse_backupskip(option)
+  end
+  return backupskip_cache.items
+end
+
 -- Get or create buffer state
 function M.get_buffer_state(bufnr)
   if not buffer_states[bufnr] then
@@ -106,15 +174,8 @@ function M.is_temp_file(path)
     return true
   end
   
-  local backupskip = vim.o.backupskip
-  if not backupskip or backupskip == '' then
-    return false
-  end
-  
-  -- Split backupskip by commas (handle escaped commas)
-  for pattern in backupskip:gmatch('[^,]+') do
-    -- Simple pattern matching - convert vim glob to lua pattern
-    pattern = pattern:gsub('\\,', ',') -- unescape commas
+  -- Split backupskip respecting escaped commas
+  for _, pattern in ipairs(get_backupskip_items()) do
     pattern = vim.fn.glob2regpat(pattern)
     if vim.fn.match(path, pattern) ~= -1 then
       return true
@@ -217,6 +278,10 @@ end
 
 -- Handle error messages based on verbosity
 function M.handle_error(level, message)
+  if not message or message == '' then
+    return
+  end
+
   if level < math.min(1, M.config.verbosity) then
     vim.api.nvim_echo({{message, 'ErrorMsg'}}, true, {})
   end
