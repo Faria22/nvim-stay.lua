@@ -5,6 +5,16 @@ All notable changes to nvim-stay.lua will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Simplified README and installation docs to focus on Neovim defaults
+- Documented Lua configuration via `require('stay').setup()` across help/README
+- Switched view handling to native Neovim APIs (`vim.api.nvim_exec_autocmds`,
+  `vim.fs.normalize`) for cleaner integration
+- Updated `:CleanViewdir` implementation to rely on modern Neovim functions
+  while keeping behaviour identical to the original plugin
+
 ## [1.0.0] - 2024-10-01
 
 ### Added

@@ -3,41 +3,43 @@
 
 local M = {}
 
--- Trigger autocommand if it exists
-local function doautocmd(event, pattern, opts)
-  opts = opts or {}
-  -- Check if there are any autocommands for this event
-  local has_autocmd
-  if pattern then
-    has_autocmd = vim.fn.exists('#' .. event .. '#' .. pattern)
-  else
-    has_autocmd = vim.fn.exists('#' .. event)
+local function normalize_path(path)
+  if vim.fs and vim.fs.normalize then
+    return vim.fs.normalize(path)
+  end
+  return path:gsub('\\', '/')
+end
+
+-- Trigger autocommands using Neovim's native API
+local function run_autocmd(event, pattern, opts)
+  if opts == nil and type(pattern) == 'table' then
+    opts = pattern
+    pattern = nil
   end
 
-  if has_autocmd ~= 0 then
-    local cmd = 'doautocmd'
-    if opts.nomodeline ~= false then
-      cmd = cmd .. ' <nomodeline>'
-    end
-    cmd = cmd .. ' ' .. event
-    if pattern then
-      cmd = cmd .. ' ' .. pattern
-    end
-    vim.cmd(cmd)
+  opts = opts or {}
+
+  local exec_opts = {
+    modeline = opts.nomodeline == false,
+  }
+
+  if pattern ~= nil then
+    exec_opts.pattern = pattern
   end
+
+  if opts.buffer ~= nil then
+    exec_opts.buffer = opts.buffer
+  end
+
+  pcall(vim.api.nvim_exec_autocmds, event, exec_opts)
 end
 
 local function split_option_list(option)
-  local result = {}
   if not option or option == '' then
-    return result
+    return {}
   end
 
-  for part in option:gmatch('[^,]+') do
-    table.insert(result, part)
-  end
-
-  return result
+  return vim.split(option, ',', { trimempty = true })
 end
 
 local function ensure_string(err)
@@ -90,7 +92,7 @@ local function get_viewdir_path()
   end
 
   if viewdir_cache.option ~= option then
-    local normalized = option:gsub('\\', '/')
+    local normalized = normalize_path(option)
     normalized = normalized:gsub('/+$', '')
     viewdir_cache.option = option
     viewdir_cache.path = normalized
@@ -120,7 +122,7 @@ function M.make(winid, disabled_viewoptions)
   end
   
   -- Trigger pre-save event
-  doautocmd('User', 'BufStaySavePre')
+  run_autocmd('User', 'BufStaySavePre')
   
   -- Save current viewoptions and enforce non-storage of options
   local original_viewoptions = vim.o.viewoptions
@@ -149,7 +151,7 @@ function M.make(winid, disabled_viewoptions)
   vim.o.viewoptions = original_viewoptions
   
   -- Trigger post-save event
-  doautocmd('User', 'BufStaySavePost')
+  run_autocmd('User', 'BufStaySavePost')
   
   -- Return to original window
   pcall(vim.api.nvim_set_current_win, original_winid)
@@ -175,7 +177,7 @@ function M.load(winid)
   end
   
   -- Trigger pre-load event
-  doautocmd('User', 'BufStayLoadPre')
+  run_autocmd('User', 'BufStayLoadPre')
   
   -- Save current eventignore and suppress SessionLoadPost
   local original_eventignore = vim.o.eventignore
@@ -239,7 +241,7 @@ function M.load(winid)
     if did_load_view then
       -- Restore eventignore and trigger SessionLoadPost with modelines enabled
       vim.o.eventignore = original_eventignore
-      doautocmd('SessionLoadPost', nil, { nomodeline = false })
+      run_autocmd('SessionLoadPost', { nomodeline = false })
 
       -- Respect position set by other scripts/plugins
       if stay_atpos then
@@ -261,7 +263,7 @@ function M.load(winid)
   vim.o.eventignore = original_eventignore
   
   -- Trigger post-load event
-  doautocmd('User', 'BufStayLoadPost')
+  run_autocmd('User', 'BufStayLoadPost')
   
   -- Return to original window
   pcall(vim.api.nvim_set_current_win, original_winid)

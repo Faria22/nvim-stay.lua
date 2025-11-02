@@ -31,18 +31,24 @@ This plugin is designed to work with Neovim.
 ==============================================================================
 2. Installation					*nvim-stay-installation*
 
-Using a plugin manager (e.g., vim-plug, packer.nvim, lazy.nvim):
+Using a plugin manager:
 
-For vim-plug: >
+vim-plug: >
     Plug 'Faria22/nvim-stay.lua'
 <
 
-For packer.nvim: >
-    use 'Faria22/nvim-stay.lua'
+packer.nvim: >
+    use { 'Faria22/nvim-stay.lua' }
 <
 
-For lazy.nvim: >
-    { 'Faria22/nvim-stay.lua' }
+lazy.nvim: >
+    {
+      'Faria22/nvim-stay.lua',
+      event = 'BufReadPre',
+      config = function()
+        require('stay').setup()
+      end,
+    }
 <
 
 Manual installation:
@@ -51,7 +57,7 @@ Manual installation:
    git clone https://github.com/Faria22/nvim-stay.lua \
      ~/.local/share/nvim/site/pack/plugins/start/nvim-stay.lua
 <
-2. Run `:helptags ALL` to generate help tags
+2. Run `:helptags doc` (or `:helptags ALL`) to generate help tags
 
 ==============================================================================
 3. Configuration				*nvim-stay-configuration*
@@ -59,19 +65,10 @@ Manual installation:
 
 VIEW SESSION CONFIGURATION:			*nvim-stay-viewoptions*
 
-The following, non-standard 'viewoptions' settings are recommended:
->
-	set viewoptions=cursor,folds,slash,unix
-<
-It is recommended to clear the 'viewdir' contents after changing this option,
-as it is only applied when creating a view session file, not when loading it.
-nvim-stay.lua provides the |:CleanViewdir| command to do that.
-
-Note that you absolutely should remove `options` from 'viewoptions':
->
-	set viewoptions-=options
-<
-as storing local options in view session files causes no end of trouble.
+Neovim's defaults already persist the useful parts of |'viewoptions'|.
+If you do customise it, keep `cursor` and `folds` enabled and consider
+removing `options` / `localoptions` to avoid saving unrelated state.
+After changing the option, use |:CleanViewdir| to clear stale view files.
 
 
 IGNORED FILE TYPES:				*g:volatile_ftypes*

@@ -37,7 +37,9 @@ nvim-stay.lua/
 ### Configuration
 ✅ `g:volatile_ftypes` - List of file types to never persist
 ✅ `g:stay_verbosity` - Error message verbosity control (-1, 0, 1)
+✅ `g:stay_disabled_viewoptions` / `disabled_viewoptions` option in `stay.setup`
 ✅ Compatible with 'viewoptions' and 'viewdir' settings
+✅ `stay.setup({ ... })` Lua API for configuring the plugin programmatically
 
 ### Commands
 ✅ `:CleanViewdir[!] [days]` - Clean up view directory
@@ -102,8 +104,8 @@ All core functionality has been tested and verified:
 ## Next Steps for Users
 
 1. Install the plugin using their preferred method
-2. Add recommended viewoptions settings to config
-3. Optionally customize volatile_ftypes
-4. Use `:CleanViewdir` periodically to manage view directory
+2. Optionally customise `volatile_ftypes`, `disabled_viewoptions`, or `verbosity`
+   via `require('stay').setup({ ... })`
+3. Use `:CleanViewdir` periodically to manage view directory
 
 The plugin works automatically in the background with no user intervention required.
